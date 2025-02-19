@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Inventory Management Software </title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/assets/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="~/assets/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="~/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/assets/images/favicon.png" />
+    <style>
+        .nav-one .navbar-brand-wrapper:after {
+            display: none;
+        }
+
+        .btn-login {
+            position: absolute;
+            right: 40px;
+            background: #ECECEC;
+            width: 120px;
+            font-size: 14px;
+            margin: 0px !important;
+            display: flex !important;
+            justify-content: center;
+            padding: 5px 0px;
+            color: black;
+            font-weight: 700;
+            border-radius: 5px;
+        }
+
+        .navbar .navbar-menu-wrapper {
+            padding-left: 1.1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            background-color: white;
+        }
+
+        .text-center.navbar-brand-wrapper.d-flex.align-items-center.justify-content-between {
+            padding: 14px 10px;
+        }
+
+        button.navbar-toggler.navbar-toggler.align-self-center {
+            padding-right: 10px;
+        }
+
+        .page-body-wrapper {
+            padding-top: 70px;
+        }
+
+        .content-wrapper {
+            padding-left: 0.4rem;
+            padding-right: 0.4rem;
+        }
+
+        .side-nav .sidebar ul.nav.border-nav {
+            border-top: none;
+        }
+
+        .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link[aria-expanded=true] {
+            background: #fff;
+            color: #001C35 !important;
+            border-radius: 0px;
+            padding-left: 5px;
+        }
+
+        .nav-link .menu-title {
+            color: #001C35 !important;
+        }
+
+        .side-nav img.cross-mys {
+            position: relative;
+            left: 0;
+        }
+
+        .side-nav .nav-link i {
+            display: block;
+            color: #121212 !important;
+        }
+
+        .side-nav a.nav-link {
+            border: 1px solid #B7B7B7;
+            border-radius: 0px !important;
+            border-left: none;
+            border-right: none;
+        }
+
+        .collapse.show .nav-link,
+        li.nav-item {
+            border: none !important;
+        }
+
+        .side-nav .sidebar .nav.sub-menu {
+            padding-left: 0px;
+        }
+
+        .side-nav .nav.sub-menu .nav-item::before {
+            display: none;
+        }
+
+        .side-nav .sidebar .nav.sub-menu li.nav-item {
+            background: #F4F4F4;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .side-nav .sidebar .nav.sub-menu .nav-item .nav-link {
+            color: #B7B7B7;
+        }
+
+        .card .card-body {
+            padding: 1rem 1rem;
+        }
+
+        .main-panel-one .card-title.card-title-dash {
+            font-size: 14px;
+            color: #B7B7B7;
+            font-weight: 500;
+        }
+
+            .main-panel-one .card-title.card-title-dash a {
+                text-decoration: none;
+                color: #121212;
+            }
+
+        body.with-welcome-text.sidebar-icon-only a.navbar-brand.brand-logo-mini {
+            display: none;
+        }
+
+        .data-input {
+            background: #ECECEC;
+            padding: 6px;
+            border-radius: 5px;
+        }
+
+        .main-panel-one span.icon-calendars.input-group-text.calendar-icon {
+            background: white;
+            border: none;
+            color: black;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .icon-date {
+            font-family: 'Manrope';
+        }
+
+        .datepicker.input-group {
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .main-panel-one span.icon-calendars.input-group-text.calendar-icon:after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            border: 1px solid #ECECEC;
+            right: 0;
+        }
+
+        .btn-btn {
+            border: none;
+            background: #D14334;
+            color: white;
+            width: 100%;
+            border-radius: 5px;
+            padding: 17px 0px;
+            font-size: 15px;
+        }
+
+        /* ------------------ */
+
+
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+            .employee-table thead {
+                background-color: #001C35;
+                color: white;
+            }
+
+            .employee-table th,
+            .employee-table td {
+                padding: 12px 8px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .employee-table tbody tr:nth-child(even) {
+                background-color: #F4F4F4;
+            }
+
+            .employee-table tbody tr:nth-child(odd) {
+                background-color: #E6EAEE;
+            }
+
+        .employee-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+
+            .status.in {
+                background-color: #28a745;
+                border-radius: 50%;
+                width: 16px;
+                display: flex;
+                height: 16px;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 10px;
+            }
+
+        span.in-tb {
+            float: left;
+            padding-right: 4px;
+            color: #28a745;
+        }
+
+        span.out-tb {
+            float: left;
+            padding-right: 4px;
+            color: #dc3545;
+        }
+
+        .status.out {
+            background-color: #dc3545;
+            border-radius: 50%;
+            width: 16px;
+            display: flex;
+            height: 16px;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+        }
+
+        .status-info {
+            /* display: flex; */
+            gap: 6px;
+            align-items: center;
+        }
+
+        .icon {
+            margin-left: 8px;
+        }
+
+        /* ----------------------- */
+
+        @@media (min-width: 992px) {
+            .sidebar-icon-only .sidebar {
+                width: 0;
+                background: #fff;
+                overflow: hidden;
+            }
+        }
+    </style>
+    @* <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> *@
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(function ($) {
+            var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+            //alert($('ul a').length);
+            $('.border-nav a').each(function () {
+                if (this.href === path) {
+                    $(this).addClass('active');
+                }
+                //alert(this.href);
+            });
+        });
+    </script>
+</head>
+<body class="with-welcome-text">
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row nav-one">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-between" style="height: 64px !important">
+                @*  <div class="bar">
+                   <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                        <img src="~/img/Menus.png">
+                    </button>
+                <a class="navbar-brand brand-logo" href="index.html">
+                        <img src="~/img/Logo.png" alt="logo" />
+                    </a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                        <img src="~/img/Logo.png" alt="logo" />
+                    </a>
+                    </div> *@
+                <div>
+                </div>
+
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-top">
+                <ul class="navbar-nav ms-auto" style="    width: 100%;">
+                    <li class="nav-item d-block"
+                        style="width: 100%;margin: 0px;font-size: 18px;text-align: center;font-weight: 700;color: black;">
+                        Inventory Management Software
+                    </li>
+                  @*   <li class="nav-item d-block btn-login">Branch Login</li> *@
+
+
+                </ul>
+                <a href="@Url.Action("Logout", "Home")" class="btn btn-primary">Logout</a>
+
+          
+                @* <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                        data-bs-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button> *@
+
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper side-nav">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav border-nav">
+
+                 @*    <li class="nav-item nav-category">Main</li> *@
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
+                           aria-controls="form-elements">
+                            <!-- <img class="menu-icon" src="img/database.png"> -->
+                            <!-- <img class="cross-my" src="img/circle.png"> -->
+                            <span class="menu-title">Master</span>
+                            <i class="menu-arrow"></i>
+                          
+                        </a>
+                        <div class="collapse" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="~/Admin/MaterialIn">Material In</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Admin/Materialout">Material Out</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/home/dashboard">Available Stock</a></li>
+                                @* <li class="nav-item"><a class="nav-link" href="/Admin/AttendanceSuper">Attendance Super</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Attendance Muster</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Attendance Muster With Timings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">All Branches Report</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Attendance Muster Advanced</a></li> *@
+                             @*    <li class="nav-item"><a class="nav-link" href="#">Monthly Report</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Shortage Report</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Shortage Report With Shift</a></li> *@
+                            </ul>
+                        </div>
+                    </li>
+                 @*    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#form-elements2" aria-expanded="false"
+                           aria-controls="form-elements">
+                            <!-- <img class="menu-icon" src="img/database.png"> -->
+                            <!-- <img class="cross-my" src="img/circle.png"> -->
+                            <span class="menu-title">Master</span>
+                            <i class="menu-arrow"></i>
+
+                        </a>
+                        <div class="collapse" id="form-elements2">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="/Master/Site">Site Master </a></li>
+                                <li class="nav-item"><a class="nav-link" href="/Master/BeatMaster">Beat Master </a></li>
+                                <li class="nav-item"><a class="nav-link" href="/Master/BeatAssign">Beat Assign </a></li>
+                                
+                              
+                            </ul>
+                        </div>
+                    </li> *@
+
+                </ul>
+            </nav>
+
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+        </div>
+
+    </div>
+
+    @* <footer class="border-top footer text-muted">
+    <div class="container">
+    &copy; 2024 - GuardTour - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+    </footer> *@
+    @* <script src="~/assets/vendors/js/vendor.bundle.base.js"></script> *@
+    <script src="~/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="~/assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="~/assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/assets/js/off-canvas.js"></script>
+    <script src="~/assets/js/template.js"></script>
+    <script src="~/assets/js/settings.js"></script>
+    <script src="~/assets/js/hoverable-collapse.js"></script>
+    <script src="~/assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="~/assets/js/jquery.cookie.js" type="text/javascript"></script>
+    @* <script src="~/assets/js/dashboard.js"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@*     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> *@
+
+</body>
+</html>
+
+

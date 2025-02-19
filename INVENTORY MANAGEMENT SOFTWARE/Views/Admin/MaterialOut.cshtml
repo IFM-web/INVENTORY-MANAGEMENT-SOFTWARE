@@ -1,0 +1,221 @@
+﻿@{
+    ViewData["Title"] = "MaterialOut";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+
+
+ <style>
+    table{
+        font-size:17px !important;
+        overflow: scroll !important;
+    }
+
+    .custom-table  th {
+        border: 1.4px solid black;
+      
+        color:black;
+    }
+
+    .custom-table td {
+        border: 1.4px solid black;
+       /*  background-color: #008ee1;
+        color: #fff; */
+    }
+
+
+
+   
+</style>
+
+@*   
+          <table style="overflow:scroll" class="custom-table mt-3"> *@
+
+<div class=" container-fluid" id="bdy">
+    <div class="card shadow ">
+
+        <div class="card-header py-3">
+            <h5 id="header" class="m-0 font-weight-bold text-primary ">Material Out</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Site Selection -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="centerpoint">Center Point</label>
+                        <select style="height: 28px;" class="form-control mandatory" id="centerpointid" name="Please Select Center Point">
+                            @*    <option value="0">Select Center Point</option> *@
+                            @if (ViewBag.point != null)
+                            {
+                                foreach (var item in ViewBag.point as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group ">
+                        <label for="date">Select Date</label>
+                        <input style="height: 28px;" type="date" id="dateid" class="form-control mandatory " name="Please Select Date" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="hub">Select Hub</label>
+                        <select class="form-control mandatory" style="height: 28px;" name="Select Hub" id="hubid">
+                            @*      <option value="0">Select Hub</option> *@
+                            @if (ViewBag.hub != null)
+                            {
+                                foreach (var item in ViewBag.hub as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="centerclient">Select Client</label>
+                        <select style="height: 28px;" class="form-control mandatory" id="centerclientid" name="Please Select Client">
+                            @*   <option value="0">Select Client </option> *@
+                            @if (ViewBag.Client != null)
+                            {
+                                foreach (var item in ViewBag.Client as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Date Selection -->
+                <div class="col-md-6">
+                    <div class="form-group  ">
+                        <label for="brcode">Enter BR Code</label>
+                        <input style="height: 28px;" type="text" id="brcodeid" class="form-control mandatory" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="Please Enter BR Code" />
+                    </div>
+                </div>
+
+
+                <!-- Date Selection -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="branchname">Branch Name</label>
+                        <input style="height: 28px;" type="text" id="branchnameid" class="form-control mandatory" name="Please Branch Name" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="branchaddress">Branch Address</label>
+                        <input style="height: 28px;" type="text" id="branchaddressid" class="form-control mandatory" name="Please Branch Address" readonly />
+                    </div>
+                </div>
+               
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        
+                        <label for="equipment">Select Material Name</label>
+                        <select class="form-control mandatory" id="equipmentid" onchange="addEquipment(this.value)" name="Please Select Material Name" !important>
+                            <option value="0">Select Material</option>
+                            @if (ViewBag.Equipmentlist != null)
+                            {
+                                foreach (var item in ViewBag.Equipmentlist as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Available Stock -->
+                <div id="divavailabestockid" class="col-md-6">
+                    <div class="form-group">
+                        <br />
+                        <label for="availabestock">Available Stock:</label>
+                        <span id="availabestockid">Please select Material</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="qty">Quantity Need To Be Transfer</label>
+                        <input style="height: 28px;" type="text" id="qtyid" class="form-control mandatory" name="Please  Enter Quantity" onchange="validateNoMultipleZeros(this.value)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="remarks">Remarks</label>
+                        <input style="height: 28px;" type="text" id="remarksid" class="form-control" />
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+
+            <!-- Add to List Button -->
+            <div>
+                <button type="button" id="btnaddid" onclick="Addtolist()" class="btn btn-dark w-100">Add To List</button>
+
+            </div>
+       
+        
+       <div id="addlistid">
+    <div class="card flex-grow-1 border-0 shadow">
+        <div class="table-responsive">
+              <table style="overflow:scroll" class="custom-table mt-3">
+          @*   <table class="table table-striped" id="tableid" style="font-size: 12px;"> *@
+                <thead class="thead-dark">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Center Point</th>
+                        <th>Date</th>
+                        <th>Hub</th>
+                        <th>Client</th>
+                        <th>BRCode</th>
+                        <th>Branch Name</th>
+                        <th>Branch Address</th>
+                        <th>Material Name</th>
+                        <th>Available Stock</th>
+                        <th>Qty Transfer</th>
+                        <th>Remarks</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-id">
+                    <!-- Rows will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+        <div>
+            <button id="btnsave" type="button" onclick="SaveData()" class="btn btn-dark w-100 mt-3">Submit</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script src="~/js/Materialout.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#equipmentid").select2();
+    });
+</script>
+
