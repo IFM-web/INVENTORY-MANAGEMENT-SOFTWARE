@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Invoice Dashboard";
+    ViewData["Title"] = "Matrial Out Dashboard";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
     var dataTable = ViewBag.dt as System.Data.DataTable;
     int count = 1;
@@ -79,7 +79,7 @@
                                     <th>S.No</th>
                                     <th> Center Point</th>
                                     <th> Date</th>
-                                    <th> Hub</th>
+                                    <th> District</th>
                                     <th> Client</th>
                                     <th> BRCode</th>
                                     <th> Branch Name</th>
@@ -88,11 +88,11 @@
                                     <th> Qty Transfer</th>
                                     <th> Remarks</th>
                                     <th> Status</th>
-                                    <th> L1Approval</th>
-                                    <th> L2Approval</th>
+                                 @*    <th> L1Approval</th>                                   
                                     <th> L1ApprovalDate</th>
-                                    <th> L2ApprovalDate</th>
-                                    <th> InternalStatus</th>
+                                    <th> L2Approval</th>
+                                    <th> L2ApprovalDate</th> *@
+                                    
                                   
                                   
                                 </tr>
@@ -115,11 +115,8 @@
                                             <td>@row["QtyTransfer"]</td>
                                             <td>@row["Remarks"]</td>
                                             <td>@row["Status"]</td>
-                                            <td>@row["L1Approval"]</td>
-                                            <td>@row["L2Approval"]</td>
-                                            <td>@row["L1ApprovalDate"]</td>
-                                            <td>@row["L2ApprovalDate"]</td>
-                                            <td>@row["InternalStatus"]</td>
+                                        
+                                          
                                            
                                         </tr>
                                         count++;
