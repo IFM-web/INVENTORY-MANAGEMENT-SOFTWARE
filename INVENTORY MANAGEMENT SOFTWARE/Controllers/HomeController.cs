@@ -65,7 +65,16 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 ViewBag.dt = dataTable;
                 return View();
         }
-     
+
+        public IActionResult InvoiceDashboard()
+        {
+            string sqlQuery = "SELECT CenterPoint,convert(varchar,cast(Date as date),103)Date,Hub,Client,BRCode,BranchName ,BranchAddress ,MaterialName,QtyTransfer ,Remarks ,Status     ,L1Approval,L2Approval ,convert(varchar,cast(L1ApprovalDate as date),103)L1ApprovalDate ,convert(varchar,cast(L2ApprovalDate as date),103)L2ApprovalDate  ,InternalStatus FROM MaterialOut";
+            DataSet ds = util.Fill(sqlQuery, util.cs);
+            var dataTable = ds.Tables[0];
+            ViewBag.dt = dataTable;
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Invoice Dashboard";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    var dataTable = ViewBag.dt as System.Data.DataTable;
+    int count = 1;
+}
+<style>
+    
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    #searchInput {
+        width: 60%;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 25px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        outline: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+        #searchInput:focus {
+            border-color: #4CAF50; 
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+    table {
+        font-size: 20px !important;
+        overflow: scroll !important;
+    }
+
+    .custom-table th {
+        border: 1.4px solid black;
+        color: black;
+        width: 198px;
+    }
+
+    .custom-table td {
+        border: 1.4px solid black;
+    }
+</style>
+
+
+<div class="row">
+    <div style="margin-left: 17px;margin-top: 16px;">
+        <div class="card-body">
+        <button onclick="generateExcel()" class="btn btn-primary">Download Excel</button>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+
+
+
+<div class="container-fluid" id="bdy">
+    <div class="card shadow mt-4">
+        <div class="row py-3 px-3">
+           @*  <div class="search-container">
+               <input type="text" id="searchInput" placeholder="Search for Material" />
+                
+            </div> *@
+            <div class="card-body">
+                <div class="table-container">
+                    <!-- Adding a line above the table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped custom-table" style="border: 2px solid black; border-collapse: collapse;" id="tableid">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th> Center Point</th>
+                                    <th> Date</th>
+                                    <th> Hub</th>
+                                    <th> Client</th>
+                                    <th> BRCode</th>
+                                    <th> Branch Name</th>
+                                    <th> Branch Address</th>
+                                    <th> Material Name</th>
+                                    <th> Qty Transfer</th>
+                                    <th> Remarks</th>
+                                    <th> Status</th>
+                                    <th> L1Approval</th>
+                                    <th> L2Approval</th>
+                                    <th> L1ApprovalDate</th>
+                                    <th> L2ApprovalDate</th>
+                                    <th> InternalStatus</th>
+                                  
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (dataTable != null)
+                                {
+                                    @foreach (System.Data.DataRow row in dataTable.Rows)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@row["CenterPoint"]</td>
+                                            <td>@row["Date"]</td>
+                                            <td>@row["Hub"]</td>
+                                            <td>@row["Client"]</td>
+                                            <td>@row["BRCode"]</td>
+                                            <td>@row["BranchName"]</td>
+                                            <td>@row["BranchAddress"]</td>
+                                            <td>@row["MaterialName"]</td>
+                                            <td>@row["QtyTransfer"]</td>
+                                            <td>@row["Remarks"]</td>
+                                            <td>@row["Status"]</td>
+                                            <td>@row["L1Approval"]</td>
+                                            <td>@row["L2Approval"]</td>
+                                            <td>@row["L1ApprovalDate"]</td>
+                                            <td>@row["L2ApprovalDate"]</td>
+                                            <td>@row["InternalStatus"]</td>
+                                           
+                                        </tr>
+                                        count++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+    function generateExcel() {
+        // Get the table element by ID
+        var table = document.getElementById("tableid");
+
+        // Use SheetJS to convert the table into an Excel worksheet
+        var ws = XLSX.utils.table_to_sheet(table);
+
+        // Create a new workbook
+        var wb = XLSX.utils.book_new();
+
+        // Append the worksheet to the workbook
+        XLSX.utils.book_append_sheet(wb, ws, "Invoice Dashboard");
+
+        // Generate and trigger the download of the Excel file
+        XLSX.writeFile(wb, "Invoice Dashboard.xlsx");
+    }
+
+
+
+
+
+    $('#searchInput').on('keyup', function () {
+    let filter = $(this).val().toUpperCase();
+
+
+        $('#tableid tbody tr').each(function (index) {
+        if (index === -1) return; 
+
+        let row = $(this);
+        let match = false;
+
+        // Check each cell in the row
+        row.find('td').each(function () {
+            if ($(this).text().toUpperCase().indexOf(filter) > -1) {
+                match = true;
+                return false;
+            }
+            else {
+                row.add('not Found')
+            }
+        });
+
+        
+        row.toggle(match);
+    });
+});
+</script>

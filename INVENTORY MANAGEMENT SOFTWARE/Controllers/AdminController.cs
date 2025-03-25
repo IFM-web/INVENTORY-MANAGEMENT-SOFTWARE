@@ -179,5 +179,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 var data = JsonConvert.SerializeObject(msg);
                 return Json(data);
         }
+
+
     }
 }
