@@ -243,7 +243,7 @@ function validateNoMultipleZeros(input) {
    
     for (let i = 1; i < input.length; i++) {
        
-        if (input[i] === '0' && input[i - 1] === '0') {
+        if (input[i] === '' && input[i - 1] === '') {
           
             document.getElementById('quantityid').value = '';
             Swal.fire({

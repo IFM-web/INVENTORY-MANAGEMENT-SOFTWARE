@@ -149,7 +149,7 @@ function validateNoMultipleZeros(input) {
     // Iterate through the input string starting from the second character (index 1)
     for (let i = 1; i < input.length; i++) {
         // Check if current character is '0' and the previous character is also '0'
-        if (input[i] === '0' && input[i - 1] === '0') {
+        if (input[i] === '' && input[i - 1] === '') {
             // Clear the input field and show a message if consecutive zeros are found
             document.getElementById('qtyid').value = ''; // Reset the value to empty
             Swal.fire({
