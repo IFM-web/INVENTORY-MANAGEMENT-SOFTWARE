@@ -72,10 +72,31 @@
                 </div>
             </div>
 
+        
           <div class="col-md-3 mt-1">
-              <label>Material Name</label>
-                <select class="form-control " onchange="BindState(this.value)" id="materialName" name="">
-                       <option value="0">Select </option> 
+              <label>State</label>
+                <select class="form-control " onchange="Binddistrict()" id="State" name="">
+                       <option value="0">All </option> 
+                    @if (ViewBag.state != null)
+                    {
+                        foreach (var item in ViewBag.state as List<SelectListItem>)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+          </div>
+          <div class="col-md-3 mt-1">
+              <label>District</label>
+                <select class="form-control " id="District" name="">
+                       <option value="0">All </option>
+                   
+                </select>
+          </div>
+            <div class="col-md-3 mt-1">
+                <label>Material Name</label>
+                <select class="form-control "  id="materialName" name="">
+                    <option value="0">All </option>
                     @if (ViewBag.Material != null)
                     {
                         foreach (var item in ViewBag.Material as List<SelectListItem>)
@@ -84,21 +105,7 @@
                         }
                     }
                 </select>
-          </div>
-          <div class="col-md-3 mt-1">
-              <label>State</label>
-                <select class="form-control " onchange="Binddistrict()" id="State" name="">
-                       <option value="0">Select </option> 
-                   
-                </select>
-          </div>
-          <div class="col-md-3 mt-1">
-              <label>District</label>
-                <select class="form-control " id="District" name="">
-                       <option value="0">Select </option> 
-                    
-                </select>
-          </div>
+            </div>
           <div class="col-md-3 mt-1">
           
               <label>From Date</label>

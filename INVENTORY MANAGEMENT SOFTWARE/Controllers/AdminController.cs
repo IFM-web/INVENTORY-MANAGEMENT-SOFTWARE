@@ -250,6 +250,24 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             {
                  msg = util.ExecQuery($@"update MaterialIn set EquipmentList='{e["MaterialName"]}',QuantityReceived='{e["Qty"]}',Remarks='{e["remark"]}' where MaterialId= '{e["matrialitemid"]}' ",util.cs);
 
+                if(msg== "Successfull")
+                {
+
+               
+               
+
+
+                DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+                int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+
+                int qty = previousqty + Convert.ToInt32(e["Qty"]);
+                    int newqty =  Convert.ToInt32(e["Qty"])- previousqty;
+
+                    util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status)values('{e["MaterialName"]}','{newqty}',getdate(),'StockIn')", util.cs);
+
+                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + qty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+
+                }
             }
 
             return Json(JsonConvert.SerializeObject(msg));

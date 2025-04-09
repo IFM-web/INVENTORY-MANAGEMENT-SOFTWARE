@@ -69,16 +69,17 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         public IActionResult InvoiceDashboard()
         {
             ViewBag.Material = util.PopulateDropDown("exec Usp_DDL 'MaterialName'", util.cs);
+            ViewBag.state = util.PopulateDropDown("exec Usp_DDL 'State'", util.cs);
 
             
             return View();
         }
 
-        public JsonResult Bindstate(string Id)
-        {
-            var ds = util.Fill("exec Usp_DDL @action='State',@id='" + Id + "'", util.cs);
-            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
-        }
+        //public JsonResult Bindstate(string Id)
+        //{
+        //    var ds = util.Fill("exec Usp_DDL @action='State',@id='" + Id + "'", util.cs);
+        //    return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        //}
 
         public JsonResult Binddistrict(string Id,string marrialname)
         {
@@ -92,7 +93,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         }
         public JsonResult GetDetailsItems(string materialName)
         {
-            var ds = util.Fill(@$"select MaterialName,Qty,convert(varchar,cast(Date as date),105) as Date,Status from logs_table where materialName='"+materialName+"'", util.cs);
+            var ds = util.Fill(@$"exec Usp_GetDetailsItems @materialname='" +materialName+"'", util.cs);
             return Json(JsonConvert.SerializeObject(ds.Tables[0]));
         }
 
