@@ -63,9 +63,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="hub">Select District</label>
-                        <select class="form-control mandatory" style="height: 28px;" name="Select Hub" id="hubid">
-                            @*      <option value="0">Select Hub</option> *@
+                        <label for="hub">Select State</label>
+                        <select onchange="BindState()" class="form-control mandatory" style="height: 28px;" name="Select State" id="hubid">
+                                 <option value="0">Select</option> 
                             @if (ViewBag.hub != null)
                             {
                                 foreach (var item in ViewBag.hub as List<SelectListItem>)
@@ -73,6 +73,14 @@
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="hub">Select District</label>
+                        <select class="form-control mandatory" style="height: 28px;" name="Select District" id="stateid">
+                           <option value="0">Select </option>
                         </select>
                     </div>
                 </div>
@@ -145,7 +153,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="qty">Quantity Need To Be Transfer</label>
-                        <input style="height: 28px;" type="text" id="qtyid" class="form-control" name="Please  Enter Quantity" onchange="validateNoMultipleZeros(this.value)" />
+                        <input style="height: 28px;" type="text" id="qtyid" class="form-control mandatory" name="Please  Enter Quantity" onchange="validateNoMultipleZeros(this.value)" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -176,7 +184,9 @@
                         <th>S.No</th>
                         <th>Center Point</th>
                         <th>Date</th>
-                        <th>Hub</th>
+                        <th>State</th>
+
+                        <th>District</th>
                         <th>Client</th>
                         <th>BRCode</th>
                         <th>Branch Name</th>
@@ -216,6 +226,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#equipmentid").select2();
+        $("#hubid").select2();
+        $("#stateid").select2();
     });
 </script>
 

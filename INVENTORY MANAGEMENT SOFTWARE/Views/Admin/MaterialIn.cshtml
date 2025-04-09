@@ -32,11 +32,16 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <!-- Site Selection -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="InvoiceNo">Invoice No</label>
+                        <input style="height: 30px;" type="text" name="InvoiceNo" id="Invoiceno" class="form-control" value="" />
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="centerpoint">Center Point</label>
-                        <select  style="height: 30px;" class="form-control" id="centerpointid" >
+                        <select style="height: 30px;" class="form-control" id="centerpointid">
                          
                             @*    <option value="0">Select Center Point</option> *@
                             @if (ViewBag.points != null)
@@ -49,7 +54,12 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Vendor Name">Vendor Name</label>
+                        <input style="height: 30px;" type="text" name="Vendor Name" id="VendorName" class="form-control" value="" />
+                    </div>
+                </div>
                 <!-- Date Selection -->
                 <div class="col-md-6">
                     <div class="form-group ">
@@ -88,7 +98,7 @@
                 <div class="col-md-6"  >
                     <div class="form-group">
                         <label for="quantity">Quantity Received</label>
-                        <input style="height: 30px;" type="text" id="quantityid" name="Please Enter Quantity " class="form-control" onchange="validateNoMultipleZeros(this.value)" />
+                        <input style="height: 30px;" type="text" id="quantityid" name="Please Enter Quantity " class="form-control mandatory" onchange="validateNoMultipleZeros(this.value)" />
                     </div>
                 </div>
 

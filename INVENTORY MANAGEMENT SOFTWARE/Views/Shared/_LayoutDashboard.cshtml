@@ -367,6 +367,7 @@
                                 <li class="nav-item"><a class="nav-link" href="~/Admin/Materialout">Material Out</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/home/dashboard">Available Stock</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/home/InvoiceDashboard">Material Out Dashboard</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Admin/UpdateMaterialIn">Update MaterialIn</a></li>
                                 @* <li class="nav-item"><a class="nav-link" href="/Admin/AttendanceSuper">Attendance Super</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Attendance Muster</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Attendance Muster With Timings</a></li>
@@ -436,6 +437,71 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @*     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> *@
+
+<script>
+        function CreateTableFromArray(arrItems, divid) {
+            let col = [];
+            for (let i = 0; i < arrItems.length; i++) {
+                for (let key in arrItems[i]) {
+                    if (col.indexOf(key) === -1) {
+                        col.push(key);
+                    }
+                }
+            }
+
+            // Create a Table.
+            let table = document.createElement("table");
+            table.setAttribute('id', 'data-table');
+            table.setAttribute('class', 'table table-bordered');
+            // Create table header row.
+
+            let tr = table.insertRow(-1);		// table row.
+
+            for (let i = 0; i < col.length; i++) {
+                let th = document.createElement('th');  // table header.
+                th.innerHTML = col[i];
+                var result = col[i].includes("Hid_") == true ? 'none' : '';
+                tr.appendChild(th);
+                th.setAttribute('style',
+                    'font:18px Calibri;border: solid 1px #DDD;' +
+                    'border-collapse: collapse; font-weight:bold;' +
+                    'padding: 2px 3px; text-align: ;' +
+                    'display:' + result + ';'
+                );
+            }
+
+            // Add JSON to the table as rows.
+            for (let z = 0; z < arrItems.length; z++) {
+                tr = table.insertRow(-1);
+
+                for (let j = 0; j < col.length; j++) {
+                    let tabCell = tr.insertCell(-1);
+                    var result = col[j].includes("Hid_") == true ? 'none' : '';
+                    tabCell.innerHTML = arrItems[z][col[j]];
+                    tabCell.setAttribute('style',
+                        'font:18px Calibri;border: solid 1px #DDD;' +
+                        'border-collapse: collapse; ' +
+                        'padding: 2px 3px; text-align: ;' +
+                        'display:' + result + ';'
+                    );
+                    tabCell.setAttribute('class', "" + col[j].replace(" ", "") + "")
+                    tabCell.setAttribute('id', "" + col[j].replace(" ", "") + "" + z + "")
+                    //console.log(arrItems[z][col[j]]);
+                }
+            }
+
+            // Show the table.
+            let container = document.getElementById('' + divid + '');
+            container.innerHTML = '';
+            container.appendChild(table);
+
+
+
+
+        }
+
+</script>
+
 
 </body>
 </html>

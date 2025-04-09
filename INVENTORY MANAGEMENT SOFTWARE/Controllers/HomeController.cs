@@ -68,12 +68,35 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
 
         public IActionResult InvoiceDashboard()
         {
-            string sqlQuery = "SELECT CenterPoint,convert(varchar,cast(Date as date),103)Date,Hub,Client,BRCode,BranchName ,BranchAddress ,MaterialName,QtyTransfer ,Remarks ,Status     ,L1Approval,L2Approval ,convert(varchar,cast(L1ApprovalDate as date),103)L1ApprovalDate ,convert(varchar,cast(L2ApprovalDate as date),103)L2ApprovalDate  ,InternalStatus FROM MaterialOut";
-            DataSet ds = util.Fill(sqlQuery, util.cs);
-            var dataTable = ds.Tables[0];
-            ViewBag.dt = dataTable;
+            ViewBag.Material = util.PopulateDropDown("exec Usp_DDL 'MaterialName'", util.cs);
+
+            
             return View();
         }
+
+        public JsonResult Bindstate(string Id)
+        {
+            var ds = util.Fill("exec Usp_DDL @action='State',@id='" + Id + "'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+        public JsonResult Binddistrict(string Id,string marrialname)
+        {
+            var ds = util.Fill("exec Usp_DDL 'District',@id='" + Id + "',@id2='"+marrialname+"'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+        public JsonResult getInvoiceDashboard(string materialName,string State,string District,string formdate,string todate)
+        {
+            var ds = util.Fill(@$"exec InvoiceDashboard @materialName='{materialName}',@State='{State}',@District='{District}',@formdate='{formdate}',@todate='{todate}'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+        public JsonResult GetDetailsItems(string materialName)
+        {
+            var ds = util.Fill(@$"select MaterialName,Qty,convert(varchar,cast(Date as date),105) as Date,Status from logs_table where materialName='"+materialName+"'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

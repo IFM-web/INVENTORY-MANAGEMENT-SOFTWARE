@@ -25950,7 +25950,7 @@ svg {
   border-color: #dee2e6;
   padding: 0.875rem 0.75rem;
   color: #c9c8c8;
-  height: 2.75rem;
+  /*height: 2.75rem;*/
 }
 
 .form-control, .typeahead,
@@ -25960,7 +25960,7 @@ svg {
   border: 1px solid #dee2e6;
   font-weight: 400;
   border-radius: 4px;
-  height: 2.75rem;
+/*  height: 2.75rem;*/
 }
 
 select.form-control, select.typeahead,

@@ -18,6 +18,38 @@ var myurl = getURL();
 
 var allitem = [];
 
+
+
+
+
+function BindState() {
+
+    $.ajax({
+        url: myurl + '/Admin/BindState',
+        type: "post",
+        data: { Id: $('#hubid').val() },
+        success: function (data) {
+            var data = JSON.parse(data);
+
+            var dropdown = $('#stateid');
+            dropdown.empty();
+            dropdown.append($('<option></option>').attr('value', 0).text('Select'));
+            for (var i = 0; i < data.length; i++) {
+
+                dropdown.append($('<option></option>').attr('value', data[i].state).text(data[i].state));
+            }
+        },
+        error: (err) => {
+            alert(err)
+        }
+    })
+
+
+};
+
+
+
+
 function Validation() {
     var msg = "";
     var charregex = /^[a-zA-Z\s]+$/;
@@ -62,89 +94,6 @@ function Validation() {
 }
 
 
-
-
-
-
-//function Addtolist() {
-//    var CenterPoint = $('#centerpointid').val();
-//    var Date = $('#dateid').val(); //
-//    var Hub = $('#hubid').val(); //
-//    var Client = $("#centerclientid").val();
-//    var Brcode = $("#brcodeid").val();
-//    var BranchName = $("#branchnameid").val();
-//    var BranchAddress = $("#branchaddressid").val();
-//    var MaterialName = $('#equipmentid').val();  // Get Equipment List
-//    var qtyTransfer = $('#qtyid').val();  // Get Quantity
-//    var Remarks = $('#remarksid').val();
-//    $('#centerpointid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#dateid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#hubid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#centerclientid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#brcodeid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#branchnameid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#branchaddressid').prop('disabled', false)// Get Remark (Not validated)
-//    $('#equipmentid').prop('disabled', false)// Get Remark (Not validated)
-// // Get Date
-//    var availabestock = $('#availabestockid').text();
-//    var msg = Validation();
-//    if (msg == '') {
-//        if (availabestock > qtyTransfer) {
-//            var items = {
-//                CenterPoint: $("#centerpointid").val(),
-//                Date: $("#dateid").val(),
-//                Hub: $("#hubid").val(),
-//                Client: $("#centerclientid").val(),
-//                Brcode: $("#brcodeid").val(),
-//                BranchName: $("#branchnameid").val(),
-//                BranchAddress: $("#branchaddressid").val(),
-//                MaterialName: $("#equipmentid").val(),
-//                qtyTransfer: $("#qtyid").val(),
-//                Remarks: $("#remarksid").val(),
-//                availabestock: $('#availabestockid').text(),
-//            }
-
-
-
-
-
-//            allitem.push(items);
-//            console.log(allitem);
-//            Swal.fire({
-//                title: "Success!",
-//                text: "Material added successfully!",
-//                icon: "success"
-//            });
-//        }
-//         else {
-//            alert('Not enough available stock to transfer')
-//        }
-
-//        //$("#centerpointid").val('');
-//        //$("#dateid").val('');
-//        //$("#hubid").val(0);
-//        //$("#centerclientid").val(0);
-//        //$("#brcodeid").val('');
-//        $("#branchnameid").val('');
-//        $("#branchaddressid").val('');
-//        $("#equipmentid").val(0);
-//        $("#qtyid").val('');
-//        $("#remarksid").val('');
-  
-//        $("#availabestockid").text('Please Select Equipment');
-//        showTable(allitem);
-//    }
-//    else {
-//        Swal.fire({
-//            title: "Error!",
-//            text: msg,
-//            icon: "Error"
-//        });
-//    }
-  
-           
-    
-//}
 function validateNoMultipleZeros(input) {
     // Iterate through the input string starting from the second character (index 1)
     for (let i = 1; i < input.length; i++) {
@@ -163,11 +112,14 @@ function validateNoMultipleZeros(input) {
     }
 }
 
+
+
 function Addtolist() {
     // Retrieve form values
     var CenterPoint = $('#centerpointid').val();
     var Date = $('#dateid').val(); //
-    var Hub = $('#hubid').val(); //
+    var state = $('#hubid').val(); 
+    var Hub = $('#stateid').val(); 
     var Client = $("#centerclientid").val();
     var Brcode = $("#brcodeid").val();
     var BranchName = $("#branchnameid").val();
@@ -192,13 +144,24 @@ function Addtolist() {
         availabestock = parseFloat(availabestock);
         qtyTransfer = parseFloat(qtyTransfer);
 
-        if (availabestock >=qtyTransfer) {
+        if (availabestock >= qtyTransfer) {
 
+            if (!/^(?!0+$)\d+$/.test(qtyTransfer)) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Quantity must be more than 0.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+                return;  // Exit function if validation fails
+            }
+            
             // Construct the item object
             var items = {
                 CenterPoint: $("#centerpointid").val(),
                 Date: $("#dateid").val(),
-                Hub: $("#hubid").val(),
+                state: $("#hubid").val(),
+                Hub: $("#stateid").val(),
                 Client: $("#centerclientid").val(),
                 Brcode: $("#brcodeid").val(),
                 BranchName: $("#branchnameid").val(),
@@ -208,19 +171,31 @@ function Addtolist() {
                 Remarks: $("#remarksid").val(),
                 availabestock: $('#availabestockid').text(),
             }
+            if (allitem.some(x => x.MaterialName === items.MaterialName)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Duplicate Item",
+                    text: `"${items.MaterialName}" is already in the list.`,
+                    confirmButtonText: "OK"
+                });
+            } else {
+                allitem.push(items);
+                console.log("Item added:", items);
+                Swal.fire({
+                    title: "Success!",
+                    text: "Material added successfully!",
+                    icon: "success"
+                });
+            }
 
             // Push item to the allitem array
-            allitem.push(items);
+            
 
             // Log all items for debugging
             console.log(allitem);
 
             // Success message
-            Swal.fire({
-                title: "Success!",
-                text: "Material added successfully!",
-                icon: "success"
-            });
+           
             //$('#centerpointid').prop('disabled', true) // Get Remark (Not validated)
             //$('#dateid').prop('disabled', true) // Get Remark (Not validated)
             //$('#hubid').prop('disabled', true) // Get Remark (Not validated)
@@ -235,7 +210,8 @@ function Addtolist() {
             $("#availabestockid").text('Please Select Material');
             $('#centerpointid').prop('disabled', true)// Get Remark (Not validated)
             $('#dateid').prop('disabled', true)// Get Remark (Not validated)
-            $('#hubid').prop('disabled', true)// Get Remark (Not validated)
+            $('#hubid').prop('disabled', true)
+            $('#stateid').prop('disabled', true)
             $('#centerclientid').prop('disabled', true)// Get Remark (Not validated)
             $('#brcodeid').prop('disabled', true)// Get Remark (Not validated)
             $('#branchnameid').prop('disabled', true)// Get Remark (Not validated)
@@ -284,6 +260,7 @@ function showTable(allitem) {
                     <td>${i + 1}</td>
                     <td>${allitem[i].CenterPoint}</td>   
                     <td>${allitem[i].Date}</td>  
+                    <td>${allitem[i].state}</td> 
                     <td>${allitem[i].Hub}</td> 
                     <td>${allitem[i].Client}</td> 
                     <td>${allitem[i].Brcode}</td>  
@@ -323,6 +300,7 @@ function deleteRow(index) {
         $('#branchnameid').prop('disabled', true);
         $('#branchaddressid').prop('disabled', true);
         $('#hubid').prop('disabled', true);
+        $('#stateid').prop('disabled', true);
         
     }
     // If no items are left, clear the fields and enable the dropdowns
@@ -339,6 +317,7 @@ function deleteRow(index) {
         $('#branchaddressid').val('');
         $('#dateid').prop('disabled', false);
         $('#hubid').prop('disabled', false);
+        $('#stateid').prop('disabled', false);
         $('#centerclientid').prop('disabled', false);
         $('#equipmentid').trigger('change');
     }
@@ -351,7 +330,8 @@ function EditRow(index) {
     // Populate the form fields with the item data
     $("#centerpointid").val(arr.CenterPoint);
     $("#dateid").val(arr.Date);
-    $("#hubid").val(arr.Hub);
+    $("#hubid").val(arr.state);
+    $("#stateid").val(arr.Hub);
     $("#centerclientid").val(arr.Client);
     $("#brcodeid").val(arr.Brcode);
     $("#branchnameid").val(arr.BranchName);
@@ -362,7 +342,8 @@ function EditRow(index) {
     $("#availabestockid").text(arr.availabestock);
     $('#centerpointid').prop('disabled', true)// Get Remark (Not validated)
     $('#dateid').prop('disabled', true)// Get Remark (Not validated)
-    $('#hubid').prop('disabled', true)// Get Remark (Not validated)
+    $('#hubid').prop('disabled', true)
+    $('#stateid').prop('disabled', true)
     $('#centerclientid').prop('disabled', true)// Get Remark (Not validated)
     $('#brcodeid').prop('disabled', true)// Get Remark (Not validated)
     $('#branchnameid').prop('disabled', true)// Get Remark (Not validated)
@@ -384,36 +365,6 @@ function EditRow(index) {
 
 
 
-
-//function SaveData() {
-//    var newdata = JSON.stringify(allitem);
-//    $.ajax({
-//        url: myurl + '/Admin/InsertMaterialOut',
-//        data: { data: newdata, ticketId: $("#tickitnoid").val() },
-//        type: 'post',
-
-//        success: function (data) {
-//            // SweetAlert for success
-//            Swal.fire({
-//                title: 'Success!',
-//                text: data.message, // Assuming `data.message` contains the success message
-//                icon: 'success',
-//                confirmButtonText: 'OK'
-//            }).then(function () {
-//                location.reload(); // Reload the page after the success alert is closed
-//            });
-//        },
-//        error: function (xhr, status, error) {
-//            // SweetAlert for error
-//            Swal.fire({
-//                title: 'Error!',
-//                text: status,
-//                icon: 'error',
-//                confirmButtonText: 'Try Again'
-//            });
-//        },
-//    });
-//}
 function SaveData() {
     // Run validation before submitting the data
 

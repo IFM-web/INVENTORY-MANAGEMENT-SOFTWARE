@@ -207,7 +207,12 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE
 					sqcmd.CommandTimeout = 0;
 					SqlDataAdapter SqlDa = new SqlDataAdapter(sqcmd);
 					SqlDa.Fill(ds);
-				}
+                    if (ds.Tables.Count > 1)
+                    {
+                        ds.Tables.RemoveAt(0);
+                    }
+
+                }
 				catch (Exception exce)
 				{
 					DataSet dset = new DataSet();

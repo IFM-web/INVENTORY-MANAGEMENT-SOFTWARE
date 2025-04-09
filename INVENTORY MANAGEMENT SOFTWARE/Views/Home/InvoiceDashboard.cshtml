@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Matrial Out Dashboard";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
-    var dataTable = ViewBag.dt as System.Data.DataTable;
+    var dt = ViewBag.dt as System.Data.DataTable;
     int count = 1;
 }
 <style>
@@ -63,66 +63,74 @@
 
 
 <div class="container-fluid" id="bdy">
-    <div class="card shadow mt-4">
+
+    <div class="card shadow mt-3">
         <div class="row py-3 px-3">
-           @*  <div class="search-container">
-               <input type="text" id="searchInput" placeholder="Search for Material" />
+            <div class="d-flex d-none justify-content-center align-items-center" id="loader"  style="height:50vh; position:absolute;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+          <div class="col-md-3 mt-1">
+              <label>Material Name</label>
+                <select class="form-control " onchange="BindState(this.value)" id="materialName" name="">
+                       <option value="0">Select </option> 
+                    @if (ViewBag.Material != null)
+                    {
+                        foreach (var item in ViewBag.Material as List<SelectListItem>)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+          </div>
+          <div class="col-md-3 mt-1">
+              <label>State</label>
+                <select class="form-control " onchange="Binddistrict()" id="State" name="">
+                       <option value="0">Select </option> 
+                   
+                </select>
+          </div>
+          <div class="col-md-3 mt-1">
+              <label>District</label>
+                <select class="form-control " id="District" name="">
+                       <option value="0">Select </option> 
+                    
+                </select>
+          </div>
+          <div class="col-md-3 mt-1">
+          
+              <label>From Date</label>
+                <input type="date" id="fromdate" style="
+    height: 30px;
+    padding: 10px;
+" class="form-control" />
+              
+          </div>
+          <div class="col-md-3 mt-1">
+              <label>To Date</label>
+                <input type="date" id="Todate" style="
+    height: 30px;
+    padding: 10px;
+" class="form-control" />
                 
-            </div> *@
+          </div>
+          <div class="col-md-2">
+                <button onclick="ShowData()" style="padding: 7px;
+                        margin-top: 17px;" class="btn btn-primary">
+                    Search
+                </button>
+                
+          </div>
+         
             <div class="card-body">
                 <div class="table-container">
-                    <!-- Adding a line above the table -->
+                   
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table" style="border: 2px solid black; border-collapse: collapse;" id="tableid">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th> Center Point</th>
-                                    <th> Date</th>
-                                    <th> District</th>
-                                    <th> Client</th>
-                                    <th> BRCode</th>
-                                    <th> Branch Name</th>
-                                    <th> Branch Address</th>
-                                    <th> Material Name</th>
-                                    <th> Qty Transfer</th>
-                                    <th> Remarks</th>
-                                    <th> Status</th>
-                                 @*    <th> L1Approval</th>                                   
-                                    <th> L1ApprovalDate</th>
-                                    <th> L2Approval</th>
-                                    <th> L2ApprovalDate</th> *@
-                                    
-                                  
-                                  
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (dataTable != null)
-                                {
-                                    @foreach (System.Data.DataRow row in dataTable.Rows)
-                                    {
-                                        <tr>
-                                            <td>@count</td>
-                                            <td>@row["CenterPoint"]</td>
-                                            <td>@row["Date"]</td>
-                                            <td>@row["Hub"]</td>
-                                            <td>@row["Client"]</td>
-                                            <td>@row["BRCode"]</td>
-                                            <td>@row["BranchName"]</td>
-                                            <td>@row["BranchAddress"]</td>
-                                            <td>@row["MaterialName"]</td>
-                                            <td>@row["QtyTransfer"]</td>
-                                            <td>@row["Remarks"]</td>
-                                            <td>@row["Status"]</td>
-                                        
-                                          
-                                           
-                                        </tr>
-                                        count++;
-                                    }
-                                }
-                            </tbody>
+                        <table id="itemsTable" class="display table table-bordered">
+                            
+                           
                         </table>
                     </div>
                 </div>
@@ -131,11 +139,13 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+<script src="~/js/InvoiceDashboard.js"></script>
 <script>
     function generateExcel() {
         // Get the table element by ID
-        var table = document.getElementById("tableid");
+        var table = document.getElementById("itemsTable");
 
         // Use SheetJS to convert the table into an Excel worksheet
         var ws = XLSX.utils.table_to_sheet(table);
@@ -149,6 +159,10 @@
         // Generate and trigger the download of the Excel file
         XLSX.writeFile(wb, "Invoice Dashboard.xlsx");
     }
+
+    $("#materialName").select2();
+    $("#State").select2();
+    $("#District").select2();
 
 
 
