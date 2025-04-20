@@ -61,29 +61,7 @@
                         <input style="height: 28px;" type="date" id="dateid" class="form-control mandatory " name="Please Select Date" />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="hub">Select State</label>
-                        <select onchange="BindState()" class="form-control mandatory" style="height: 28px;" name="Select State" id="hubid">
-                                 <option value="0">Select</option> 
-                            @if (ViewBag.hub != null)
-                            {
-                                foreach (var item in ViewBag.hub as List<SelectListItem>)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="hub">Select District</label>
-                        <select class="form-control mandatory" style="height: 28px;" name="Select District" id="stateid">
-                           <option value="0">Select </option>
-                        </select>
-                    </div>
-                </div>
+              
                 <div class="col-md-6">
 
                     <div class="form-group">
@@ -123,8 +101,32 @@
                         <input style="height: 28px;" type="text" id="branchaddressid" class="form-control mandatory" name="Please Branch Address" readonly />
                     </div>
                 </div>
-               
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="hub">Select State</label>
+                        <input id="hubid" class="form-control mandatory" readonly style="height: 28px;" value="" name="Select State" />
+                       @*  <select onchange="BindState()" class="form-control mandatory" style="height: 28px;" name="Select State" id="hubid">
+                            <option value="0">Select</option>
+                            @if (ViewBag.hub != null)
+                            {
+                                foreach (var item in ViewBag.hub as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select> *@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="hub">Select District</label>
+                        <input class="form-control mandatory" readonly style="height: 28px;" name="Select District" id="stateid">
+                      @*   <select class="form-control mandatory" style="height: 28px;" name="Select District" id="stateid">
+                            <option value="0">Select </option>
+                        </select> *@
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         

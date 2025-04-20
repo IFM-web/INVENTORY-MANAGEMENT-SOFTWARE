@@ -79,8 +79,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal-body">
-                            <table id="mytable" class="display table table-bordered">
+                        <div class="modal-body" style="overflow-x: scroll;">
+                            <table id="mytable" class="display table table-bordered" style=" overflow:scroll">
 
                             </table>
                         </div>
@@ -104,7 +104,7 @@
                 <div class="table-container">
                     <!-- Adding a line above the table -->
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table" style="border: 2px solid black; border-collapse: collapse;" id="tableid">
+                        <table class="table table-striped custom-table" style="border: 2px solid black;overflow:scroll; border-collapse: collapse;" id="tableid">
                             <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -119,7 +119,7 @@
                                     {
                                         <tr>
                                             <td>@count</td>
-                                            <td  onclick="GetDetails('@row["EquipmentList"]')"><span style="text-decoration:underline;">@row["EquipmentList"]</span></td>
+                                            <td  onclick="GetDetails('@row["EquipmentList"]')"><span style="text-decoration:underline; cursor:pointer;">@row["EquipmentList"]</span></td>
                                             <td>@row["Quantity"]</td>
                                         </tr>
                                         count++;
@@ -189,12 +189,23 @@
     });
 });
 
+    function getURL() {
+        const hostname = window.location.hostname;
+        if (hostname == "localhost") {
+            return '';
+        }
+        else {
+            return '/Inventory';
+        }
 
+    };
+
+    var myurl = getURL();
     function GetDetails(name){
-        console.log(name)
+      
         $('#myModal').modal('toggle')
         $.ajax({
-            url: '/Inventory/Home/GetDetailsItems',
+            url: myurl + '/Home/GetDetailsItems',
             type: "post",
             data: { materialName: name },
             success: function (data) {

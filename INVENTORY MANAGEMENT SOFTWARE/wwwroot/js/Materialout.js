@@ -459,8 +459,10 @@ function fetchBranchDetails() {
             // Check if the data array is not empty and has the expected fields
             if (data.length > 0) {
 
-                $('#branchnameid').val(data[0].Branch_Name); // Set Branch Name
-                $('#branchaddressid').val(data[0].Branch_Address); // Set Branch Address
+                $('#branchnameid').val(data[0].Branch_Name); 
+                $('#branchaddressid').val(data[0].Branch_Address); 
+                $('#hubid').val(data[0].Branch_Address); 
+                $('#stateid').val(data[0].Branch_Address); 
             } else {
                 // SweetAlert if no data is found
                 Swal.fire({

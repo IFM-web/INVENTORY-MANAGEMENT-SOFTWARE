@@ -96,7 +96,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                             int i = cmd.ExecuteNonQuery();
                             if (i == 1)
                             {
-                                util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status)values('{roc["MaterialName"]}','{roc["QtyTransfer"]}',getdate(),'StockOut')", util.cs);
+                                util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status,branch,branchcode,Client)values('{roc["MaterialName"]}','{roc["QtyTransfer"]}',getdate(),'StockOut','{roc["BranchName"]}','{roc["BRCode"]}','{roc["Client"]}')", util.cs);
                                
 
                                 DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + roc["MaterialName"] + "'", util.cs);
@@ -161,7 +161,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                                   int i = cmd.ExecuteNonQuery();
                                   if (i == 1)
                                   {
-                                    util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status)values('{roc["EquipmentList"]}','{roc["QuantityReceived"]}',getdate(),'StockIn')",util.cs);
+                                    util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status,Vendor)values('{roc["EquipmentList"]}','{roc["QuantityReceived"]}',getdate(),'StockIn','{roc["Vendor"]}')",util.cs);
                                       EquipmentList = roc["EquipmentList"].ToString();
 
                                                         DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + roc["EquipmentList"] + "'", util.cs);
@@ -253,19 +253,17 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 if(msg== "Successfull")
                 {
 
-               
-               
-
-
                 DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + e["MaterialName"] + "'", util.cs);
                 int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
 
-                int qty = previousqty + Convert.ToInt32(e["Qty"]);
-                    int newqty =  Convert.ToInt32(e["Qty"])- previousqty;
+                    DataSet ds1 = util.Fill("select sum(qty) from logs_table  where MaterialName = '" + e["MaterialName"] + "' and status='StockOut'", util.cs);
+                    int logpreviousqty = Convert.ToInt32(ds1.Tables[0].Rows[0][0].ToString());
+                    int qty = Convert.ToInt32(e["Qty"]);
+                    int newqty = previousqty+Convert.ToInt32(e["Qty"]);
 
-                    util.ExecQuery(@$"Insert into logs_table(MaterialName,Qty,Date,Status)values('{e["MaterialName"]}','{newqty}',getdate(),'StockIn')", util.cs);
+                     msg=util.ExecQuery(@$"update logs_table set Qty='{newqty + logpreviousqty}' where MaterialName ='{e["MaterialName"]}' and status='StockIn'", util.cs);
 
-                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + qty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + newqty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
 
                 }
             }
