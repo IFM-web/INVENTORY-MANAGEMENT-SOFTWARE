@@ -134,28 +134,15 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-<!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap 5 JS + Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-    function generateExcel() {
-        // Get the table element by ID
-        var table = document.getElementById("tableid");
-
-        // Use SheetJS to convert the table into an Excel worksheet
+    function generateExcel() {       
+        var table = document.getElementById("tableid");      
         var ws = XLSX.utils.table_to_sheet(table);
-
-        // Create a new workbook
         var wb = XLSX.utils.book_new();
-
-        // Append the worksheet to the workbook
         XLSX.utils.book_append_sheet(wb, ws, "Stock Report");
-
-        // Generate and trigger the download of the Excel file
         XLSX.writeFile(wb, "StockReport.xlsx");
     }
 

@@ -461,8 +461,8 @@ function fetchBranchDetails() {
 
                 $('#branchnameid').val(data[0].Branch_Name); 
                 $('#branchaddressid').val(data[0].Branch_Address); 
-                $('#hubid').val(data[0].Branch_Address); 
-                $('#stateid').val(data[0].Branch_Address); 
+                $('#hubid').val(data[0].District); 
+                $('#stateid').val(data[0].State); 
             } else {
                 // SweetAlert if no data is found
                 Swal.fire({

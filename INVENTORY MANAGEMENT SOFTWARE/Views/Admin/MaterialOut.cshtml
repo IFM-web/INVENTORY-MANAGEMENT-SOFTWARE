@@ -5,31 +5,25 @@
 
 
 
- <style>
-    table{
-        font-size:17px !important;
+<style>
+    table {
+        font-size: 17px !important;
         overflow: scroll !important;
     }
 
-    .custom-table  th {
+    .custom-table th {
         border: 1.4px solid black;
-      
-        color:black;
+        color: black;
     }
 
     .custom-table td {
         border: 1.4px solid black;
-       /*  background-color: #008ee1;
-        color: #fff; */
+        /*  background-color: #008ee1;
+            color: #fff; */
     }
 
-
-
-   
 </style>
 
-@*   
-          <table style="overflow:scroll" class="custom-table mt-3"> *@
 
 <div class=" container-fluid" id="bdy">
     <div class="card shadow ">
@@ -61,7 +55,7 @@
                         <input style="height: 28px;" type="date" id="dateid" class="form-control mandatory " name="Please Select Date" />
                     </div>
                 </div>
-              
+
                 <div class="col-md-6">
 
                     <div class="form-group">
@@ -105,31 +99,31 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="hub">Select State</label>
-                        <input id="hubid" class="form-control mandatory" readonly style="height: 28px;" value="" name="Select State" />
-                       @*  <select onchange="BindState()" class="form-control mandatory" style="height: 28px;" name="Select State" id="hubid">
-                            <option value="0">Select</option>
-                            @if (ViewBag.hub != null)
-                            {
-                                foreach (var item in ViewBag.hub as List<SelectListItem>)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            }
+                        <input id="stateid" class="form-control mandatory" readonly style="height: 28px;" value="" name="Select State" />
+                        @*  <select onchange="BindState()" class="form-control mandatory" style="height: 28px;" name="Select State" id="hubid">
+                        <option value="0">Select</option>
+                        @if (ViewBag.hub != null)
+                        {
+                        foreach (var item in ViewBag.hub as List<SelectListItem>)
+                        {
+                        <option value="@item.Value">@item.Text</option>
+                        }
+                        }
                         </select> *@
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="hub">Select District</label>
-                        <input class="form-control mandatory" readonly style="height: 28px;" name="Select District" id="stateid">
-                      @*   <select class="form-control mandatory" style="height: 28px;" name="Select District" id="stateid">
-                            <option value="0">Select </option>
+                        <input class="form-control mandatory" readonly style="height: 28px;" name="Select District" id="hubid">
+                        @*   <select class="form-control mandatory" style="height: 28px;" name="Select District" id="stateid">
+                        <option value="0">Select </option>
                         </select> *@
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        
+
                         <label for="equipment">Select Material Name</label>
                         <select class="form-control mandatory" id="equipmentid" onchange="addEquipment(this.value)" name="Please Select Material Name" !important>
                             <option value="0">Select Material</option>
@@ -174,62 +168,62 @@
                 <button type="button" id="btnaddid" onclick="Addtolist()" class="btn btn-dark w-100">Add To List</button>
 
             </div>
-       
-        
-       <div id="addlistid">
-    <div class="card flex-grow-1 border-0 shadow">
-        <div class="table-responsive">
-              <table style="overflow:scroll" class="custom-table mt-3">
-          @*   <table class="table table-striped" id="tableid" style="font-size: 12px;"> *@
-                <thead class="thead-dark">
-                    <tr>
-                        <th>S.No</th>
-                        <th>Center Point</th>
-                        <th>Date</th>
-                        <th>State</th>
-
-                        <th>District</th>
-                        <th>Client</th>
-                        <th>BRCode</th>
-                        <th>Branch Name</th>
-                        <th>Branch Address</th>
-                        <th>Material Name</th>
-                        <th>Available Stock</th>
-                        <th>Qty Transfer</th>
-                        <th>Remarks</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body-id">
-                    <!-- Rows will be added dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 
-        <div>
-            <button id="btnsave" type="button" onclick="SaveData()" class="btn btn-dark w-100 mt-3">Submit</button>
-        </div>
+            <div id="addlistid">
+                <div class="card flex-grow-1 border-0 shadow">
+                    <div class="table-responsive">
+                        <table style="overflow:scroll" class="custom-table mt-3">
+                            @*   <table class="table table-striped" id="tableid" style="font-size: 12px;"> *@
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Center Point</th>
+                                    <th>Date</th>
+                                    <th>State</th>
+
+                                    <th>District</th>
+                                    <th>Client</th>
+                                    <th>BRCode</th>
+                                    <th>Branch Name</th>
+                                    <th>Branch Address</th>
+                                    <th>Material Name</th>
+                                    <th>Available Stock</th>
+                                    <th>Qty Transfer</th>
+                                    <th>Remarks</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body-id">
+                                <!-- Rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button id="btnsave" type="button" onclick="SaveData()" class="btn btn-dark w-100 mt-3">Submit</button>
+            </div>
         </div>
     </div>
 </div>
 
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script src="~/js/Materialout.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+  
         $("#equipmentid").select2();
         $("#hubid").select2();
         $("#stateid").select2();
-    });
+ 
 </script>
 

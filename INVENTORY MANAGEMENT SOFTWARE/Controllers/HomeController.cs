@@ -96,6 +96,17 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             var ds = util.Fill(@$"exec Usp_GetDetailsItems @materialname='" +materialName+"'", util.cs);
             return Json(JsonConvert.SerializeObject(ds.Tables[0]));
         }
+        public JsonResult stockdashboard(string fromdate, string todate)
+        {
+            var ds = util.Fill(@$"exec Usp_stockdashboard @formdate='" +fromdate+ "',@todate='"+todate+"'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+        }
+
+
+        public IActionResult AvailabeStockNew()
+        {
+            return View();
+        }
 
 
 

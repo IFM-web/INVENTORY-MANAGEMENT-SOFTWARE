@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
 {
    
-    public class AdminController : Controller
+    public class AdminController :Controller
     {
 
        Utility util = new Utility();
@@ -45,7 +45,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         }
         public JsonResult BindBranchDetail(string brcodeid,string centerclientid)
         {
-            string sqlquery = "SELECT Branch_Name, Branch_Address FROM ClientMaster where Client_Name='"+ centerclientid + "' AND Br_Code  ='" + brcodeid + "'";
+            string sqlquery = "exec Usp_DDL 'BindBranchDetail', @id='" + centerclientid + "' , @id2 ='" + brcodeid + "'";
             DataSet ds = util.Fill(sqlquery, util.cs);
             var dt = ds.Tables[0];
             var data = JsonConvert.SerializeObject(dt);
@@ -120,8 +120,12 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             }
         }
 
-
-
+        
+        public IActionResult MaterialOutUpdate()
+        {
+            ViewBag.Material = util.PopulateDropDown("exec usp_DDL 'MaterialName'", util.cs);
+            return View();
+        }
 
 
 
@@ -195,7 +199,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 return Json(new { message = "Error: " + ex.Message });
             }
         }
-
+        [Route("Admin/UpdateIn")]
         public IActionResult UpdateMaterialIn()
         {
             ViewBag.InvoiceNo = util.PopulateDropDown("select distinct InvoiceNo,InvoiceNo from MaterialIn where InvoiceNo <> '' ", util.cs);
@@ -238,6 +242,16 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 var data = JsonConvert.SerializeObject(ds.Tables[0]);
                 return Json(data);
         }
+        [HttpPost]
+
+        public ActionResult getOutUpdatedetails(string Material)
+        {
+            
+                string sqlquery = "exec Usp_DDL 'GetoutMaterialDetails', @id ='" + Material + "'";
+                var ds = util.Fill(sqlquery, util.cs);
+                var data = JsonConvert.SerializeObject(ds.Tables[0]);
+                return Json(data);
+        }
 
         [HttpPost]
         public JsonResult UpdateMaterialInInvoice()
@@ -271,5 +285,38 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             return Json(JsonConvert.SerializeObject(msg));
         }
 
+
+
+        [HttpPost]
+        public JsonResult UpdateMaterialOut()
+        {
+            var recordsJson = Request.Form["data"].ToString();
+
+            var Arr = JArray.Parse(recordsJson);
+            string msg = "";
+            foreach (var e in Arr)
+            {
+                msg = util.ExecQuery($@"update MaterialOut set QtyTransfer='{e["Qty"]}' where Materialout_ID= '{e["matrialitemid"]}' ", util.cs);
+
+                if (msg == "Successfull")
+                {
+
+                    //DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+                    //int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+
+                    //DataSet ds1 = util.Fill("select sum(qty) from logs_table  where MaterialName = '" + e["MaterialName"] + "' and status='StockOut'", util.cs);
+                    //int logpreviousqty = Convert.ToInt32(ds1.Tables[0].Rows[0][0].ToString());
+                    //int qty = Convert.ToInt32(e["Qty"]);
+                    //int newqty = previousqty + Convert.ToInt32(e["Qty"]);
+
+                    //msg = util.ExecQuery(@$"update logs_table set Qty='{newqty + logpreviousqty}' where MaterialName ='{e["MaterialName"]}' and status='StockIn'", util.cs);
+
+                    //util.Fill("UPDATE EquipmentDropDown SET Quantity='" + newqty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+
+                }
+            }
+
+            return Json(JsonConvert.SerializeObject(msg));
+        }
     }
 }

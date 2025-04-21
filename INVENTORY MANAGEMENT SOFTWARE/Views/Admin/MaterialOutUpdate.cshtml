@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewData["Title"] = "Update Material Out";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<style>
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    #searchInput {
+        width: 60%;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 25px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        outline: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+        #searchInput:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+    table {
+        font-size: 20px !important;
+        overflow: scroll !important;
+    }
+
+    .custom-table th {
+        border: 1.4px solid black;
+        color: black;
+        width: 198px;
+    }
+
+    .custom-table td {
+        border: 1.4px solid black;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        line-height: 1;
+        /* white-space: nowrap; */
+         padding: 10px;
+    }
+    input{
+        padding: 7px;
+    }
+</style>
+
+
+<div class="container-fluid" id="bdy">
+    <div class="card shadow mt-4">
+        <div class="row py-3 px-3">
+            @*  <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for Material" />
+
+            </div> *@
+            <div class="card-header">Material Out Update</div>
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Material Name</label>
+                            <select onchange="getUpdatedetails()" class="form-control" id="Material">
+
+                                <option value="0">Select Material Name</option>
+                                @if (ViewBag.Material != null)
+                                {
+                                    foreach (var item in ViewBag.Material as List<SelectListItem>)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <div class="table-responsive" id="printdiv">
+                            
+                        </div>
+
+                        <button class="btn btn-primary mt-2" onclick="Update()">Update</button>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+<script src="~/js/UpdateMaterialOut.js"></script>
+<script>
+        function generateExcel() {
+            // Get the table element by ID
+            var table = document.getElementById("itemsTable");
+
+            // Use SheetJS to convert the table into an Excel worksheet
+            var ws = XLSX.utils.table_to_sheet(table);
+
+            // Create a new workbook
+            var wb = XLSX.utils.book_new();
+
+            // Append the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, "Invoice Dashboard");
+
+            // Generate and trigger the download of the Excel file
+            XLSX.writeFile(wb, "Invoice Dashboard.xlsx");
+        }
+
+    $("#Material").select2();
+
+
+
+
+        $('#searchInput').on('keyup', function () {
+        let filter = $(this).val().toUpperCase();
+
+
+            $('#tableid tbody tr').each(function (index) {
+            if (index === -1) return;
+
+            let row = $(this);
+            let match = false;
+
+            // Check each cell in the row
+            row.find('td').each(function () {
+                if ($(this).text().toUpperCase().indexOf(filter) > -1) {
+                    match = true;
+                    return false;
+                }
+                else {
+                    row.add('not Found')
+                }
+            });
+
+
+            row.toggle(match);
+        });
+    });
+</script>
+
+
+
+
+

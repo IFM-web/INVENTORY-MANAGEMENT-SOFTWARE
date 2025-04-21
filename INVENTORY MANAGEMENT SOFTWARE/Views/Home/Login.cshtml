@@ -2,12 +2,12 @@
 @{
 
     ViewData["Title"] = "Login";
-
+    Layout = null;
 }
 
 
 
-<link href="~/css/loginstyle.css" rel="stylesheet" />
+@* <link href="~/css/loginstyle.css" rel="stylesheet" />
 <!-- Contact form Start -->
 <div class="section mt-negative pt-0">
     <div class="container">
@@ -51,7 +51,190 @@
             </div>
         </section>
     </div>
-</div>
+</div> *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AP Securitas - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+  
+      body {
+    background: linear-gradient(to bottom,#ffffff, #ffffff,#b8b6b6);
+}
+    
+
+    .header {
+      background-color: #1f3b66;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+       height: calc(100vh - 56px); 
+    }
+
+    .left-panel {
+      width: 35%;
+      background-color: white;
+   
+
+      z-index: 1;
+      position: relative;
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .left-panel {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 0 0px rgba(0, 0, 0, 0.15);
+    margin: 0 -7rem 2rem 2rem;
+}
+    .left-panel .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .left-panel .logo img {
+      height: 60px;
+      margin-right: 10px;
+    }
+
+    .left-panel .logo h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .form label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid rgb(14, 76, 247);
+      font-size: 14px;
+    }
+
+    .form input:focus{
+border:  1px solid red;
+    }
+
+  
+
+    .form button {
+      width: 100%;
+      background-color: #00295e;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .right-panel {
+      flex: 1;
+      background-image: url('/logo.jpg');
+      background-size: cover;
+      background-position: center;
+      clip-path: polygon(23% 0%, 100% 0, 100% 100%, 0% 100%);
+      z-index: 99999;
+      /* height: 90.8vh; */
+    }
+
+    @@media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: calc(100vh - 56px); 
+      }
+
+            body {
+                background: linear-gradient(to bottom,#ffffff,#b8b6b6);
+            }
+      .left-panel {
+        clip-path: none; 
+        width: calc(100vw - 60px); 
+        align-items: center;
+        padding: 30px;
+        background: #fff;
+ 
+    border-radius: 10px;
+    box-shadow: 1px 3px 4px 4px rgba(0, 0, 0, 0.15);
+    /* margin: 2rem; */
+    margin-top: 2rem;
+
+      }
+
+      .right-panel {
+        height: 250px;
+        width: 100%;
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">INVENTORY MANAGEMENT SYSTEM</div>
+
+  <div class="container">
+    <div class="left-panel">
+      <div class="logo">
+        <img src="./Picture2.png" alt="Logo">
+
+            </div><form method="post">
+      <div class="form">
+        <label>User</label>
+                <input asp-for="uname" type="text" id="form3Example3" class="form-control form-control-lg"
+                       placeholder="Enter UserName" />
+        <label>Password</label>
+                <input asp-for="pwd" type="password" id="form3Example4" class="form-control form-control-lg"
+                       placeholder="Enter Password" />
+                <button type="submit">LOGIN</button>
+      </div>
+        </form>
+    </div>
+    <div class="right-panel"></div>
+  </div>
+
+</body>
+</html>
+
+
+
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 

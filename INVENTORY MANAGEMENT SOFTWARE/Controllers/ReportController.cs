@@ -13,7 +13,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         Utility util = new Utility();
         ClsUtility utility = new ClsUtility();
 
-       
+        [Route("Report/InReprot")]
         public IActionResult MaterialIn()
         {
             ViewBag.Material = util.PopulateDropDown("exec Usp_DDL 'MaterialName'", util.cs);
