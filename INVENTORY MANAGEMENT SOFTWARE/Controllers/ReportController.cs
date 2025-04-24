@@ -35,7 +35,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             return Json(JsonConvert.SerializeObject(ds.Tables[0]));
 
         }
-
+        [Route("Report/OutReport")]
         public IActionResult MaterialOutReport()
         {
             return View();

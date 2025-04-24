@@ -18,23 +18,11 @@ function getUpdatedetails() {
         type: 'Post',
         data: { Invoice: $('#InvoiceNo').val() },
         success: (data) => {
-            $("#tbody").empty();
+           
             var data = JSON.parse(data);
-            var row = '';
+           
             console.log(data);
-            for (var e of data) {
-                row += `
-                <tr>
-                <td  id='MaterialId' class='d-none'>${e.MaterialId}</td>
-                <td> <input id="MaterialName" class='form-control' value="${e.EquipmentList}"/></td>
-                <td> <input id="qty" class='form-control'  value="${e.QuantityReceived}"/></td>
-                <td> <input id="Remark" class='form-control'  value="${e.Remarks}"/></td>
-                </tr>
-                
-                `
-            }
-
-            $("#tbody").append(row);
+            CreateTableFromArray(data, 'printdiv');
             
 
         },
@@ -52,16 +40,21 @@ function Update() {
 
     var itemsArray = [];
 
-    $("#tbody TR").each(function (index, row) {
+    $("#printdiv tbody TR").each(function (index, row) {
         var Items = {};
         
-        Items.matrialitemid = $(row).find("#MaterialId").text();
-        Items.MaterialName = $(row).find('#MaterialName').val();
-        Items.Qty = $(row).find('#qty').val();
-        Items.remark = $(row).find('#Remark').val();
            
+        var isChecked = $(row).find('.Checkeded').is(':checked');
+        if (isChecked) {
+            Items.matrialitemid = $(row).find(".Hid_id").text();
+            Items.MaterialName = $(row).find(".MaterialName").text();
+            Items.PreviousQTY = $(row).find('.PreviousQTY').text();
+            Items.Qty = $(row).find('.Qty').val();
+            Items.Remarks = $(row).find('.Remarks').text();
+
             itemsArray.push(Items);
-        
+        }
+
 
     });
     console.log(itemsArray);

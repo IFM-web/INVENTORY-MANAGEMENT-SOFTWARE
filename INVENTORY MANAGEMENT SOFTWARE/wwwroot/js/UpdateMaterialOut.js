@@ -46,6 +46,9 @@ function Update() {
         if (isChecked) {
             Items.matrialitemid = $(row).find(".Hid_Id").text();
             Items.Qty = $(row).find('.trQty').val();
+            Items.date = $(row).find('.Date').text();
+            Items.MaterialName = $(row).find('.MaterialName').text();
+            Items.PreviousQTY = $(row).find('.PreviousQTY').text();
 
             itemsArray.push(Items);
         }

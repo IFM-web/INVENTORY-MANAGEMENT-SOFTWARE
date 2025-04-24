@@ -279,6 +279,9 @@
             margin-left: 8px;
         }
 
+        #data-table i{
+            cursor:pointer;
+        }
         /* ----------------------- */
 
         @@media (min-width: 992px) {
@@ -389,12 +392,13 @@
 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav border-nav">
+                    
                     <li class="nav-item">
                         <a class="nav-link collapsed" data-bs-toggle="collapse" href="#form-elements2" aria-expanded="false"
                            aria-controls="form-elements">
                             <!-- <img class="menu-icon" src="img/database.png"> -->
                             <!-- <img class="cross-my" src="img/circle.png"> -->
-                            <span class="menu-title">MaterialIn & MaterialOut</span>
+                            <span class="menu-title">Material In & Out</span>
                             <i class="menu-arrow"></i>
 
                         </a>
@@ -402,10 +406,27 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="~/Admin/MaterialIn">Material In</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/Admin/Materialout">Material Out</a></li>
+
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#form-elements222" aria-expanded="false"
+                           aria-controls="form-elements">
+
+                            <span class="menu-title">Edit Material</span>
+                            <i class="menu-arrow"></i>
+
+                        </a>
+                        <div class="collapse show" id="form-elements222">
+                            <ul class="nav flex-column sub-menu">
+
                                 <li class="nav-item"><a class="nav-link" href="~/Admin/UpdateIn">Update Material In</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/Admin/MaterialOutUpdate">Update Material Out</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/home/dashboard">Available Stock</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/Report/MaterialOutReport">Material Out Report</a></li>
+                                
+
                             </ul>
                         </div>
                     </li>
@@ -425,12 +446,33 @@
                                 <li class="nav-item"><a class="nav-link" href="~/home/InvoiceDashboard">Material Out Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/Report/InReprot">Material In Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/Home/AvailabeStockNew">Stock Dashboard</a></li>
+
+                                <li class="nav-item"><a class="nav-link" href="~/home/dashboard">Available Stock</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Report/OutReport">Material Out Report</a></li>
                                
                             </ul>
                         </div>
                     </li>
 
-                   
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#form-Master" aria-expanded="false"
+                           aria-controls="form-elements">
+                            <!-- <img class="menu-icon" src="img/database.png"> -->
+                            <!-- <img class="cross-my" src="img/circle.png"> -->
+                            <span class="menu-title">Master</span>
+                            <i class="menu-arrow"></i>
+
+                        </a>
+                        <div class="collapse" id="form-Master">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="~/Master/User">User Master</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Master/Client">Client Master</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Master/Item">Item Master</a></li>
+
+
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </nav>
 
@@ -526,10 +568,10 @@
             container.innerHTML = '';
             container.appendChild(table);
 
-
-
-
         }
+
+      
+
 
 </script>
 

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using System.Numerics;
 
 
 namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
@@ -236,9 +237,9 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
 
         public ActionResult getUpdatedetails(string Invoice)
         {
-               
-                string sqlquery = "select MaterialId,EquipmentList,QuantityReceived,Remarks from MaterialIn where InvoiceNo ='" + Invoice+"'";
-                var ds = util.Fill(sqlquery, util.cs);
+
+            string sqlquery = "exec Usp_DDL 'GetinMaterialDetails', @id ='" + Invoice + "'";
+            var ds = util.Fill(sqlquery, util.cs);
                 var data = JsonConvert.SerializeObject(ds.Tables[0]);
                 return Json(data);
         }
@@ -262,22 +263,24 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             string  msg="";
             foreach (var e in Arr)
             {
-                 msg = util.ExecQuery($@"update MaterialIn set EquipmentList='{e["MaterialName"]}',QuantityReceived='{e["Qty"]}',Remarks='{e["remark"]}' where MaterialId= '{e["matrialitemid"]}' ",util.cs);
+                 msg = util.ExecQuery($@"update MaterialIn set QuantityReceived='{e["Qty"]}',Remarks='{e["remark"]}' where MaterialId= '{e["matrialitemid"]}' ",util.cs);
 
                 if(msg== "Successfull")
                 {
 
                 DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + e["MaterialName"] + "'", util.cs);
-                int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+               
 
                     DataSet ds1 = util.Fill("select sum(qty) from logs_table  where MaterialName = '" + e["MaterialName"] + "' and status='StockOut'", util.cs);
                     int logpreviousqty = Convert.ToInt32(ds1.Tables[0].Rows[0][0].ToString());
                     int qty = Convert.ToInt32(e["Qty"]);
-                    int newqty = previousqty+Convert.ToInt32(e["Qty"]);
+                    int previousqty = Convert.ToInt32(e["PreviousQTY"]);
+                    int newqty = previousqty - qty;
+                    int total = newqty + previousqty;
 
-                     msg=util.ExecQuery(@$"update logs_table set Qty='{newqty + logpreviousqty}' where MaterialName ='{e["MaterialName"]}' and status='StockIn'", util.cs);
+                     msg =util.ExecQuery(@$"update logs_table set Qty='{qty}' where MaterialName ='{e["MaterialName"]}' and status='StockIn'", util.cs);
 
-                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + newqty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + (total) + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
 
                 }
             }
@@ -301,17 +304,19 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
                 if (msg == "Successfull")
                 {
 
-                    //DataSet ds = util.Fill("select Quantity from EquipmentDropDown  where EquipmentList = '" + e["MaterialName"] + "'", util.cs);
-                    //int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+                    DataSet ds = util.Fill("select sum(qty) from logs_table  where MaterialName = '" + e["MaterialName"] + "' and status='StockIn'", util.cs);
+                    int previousqty = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
 
-                    //DataSet ds1 = util.Fill("select sum(qty) from logs_table  where MaterialName = '" + e["MaterialName"] + "' and status='StockOut'", util.cs);
-                    //int logpreviousqty = Convert.ToInt32(ds1.Tables[0].Rows[0][0].ToString());
-                    //int qty = Convert.ToInt32(e["Qty"]);
-                    //int newqty = previousqty + Convert.ToInt32(e["Qty"]);
+                    DataSet ds1 = util.Fill(@$"update logs_table set qty='{e["Qty"]}'  where MaterialName = '{e["MaterialName"]}' and status='StockOut' and convert(varchar,date,105)='{e["date"]}'", util.cs);
+                  
+                    int qty = Convert.ToInt32(e["Qty"]);
+                    int PreviousQTY = Convert.ToInt32(e["PreviousQTY"]);
+                  
+                    int newqty = previousqty - qty;
+                   // int total = PreviousQTY - newqty;
 
-                    //msg = util.ExecQuery(@$"update logs_table set Qty='{newqty + logpreviousqty}' where MaterialName ='{e["MaterialName"]}' and status='StockIn'", util.cs);
 
-                    //util.Fill("UPDATE EquipmentDropDown SET Quantity='" + newqty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
+                    util.Fill("UPDATE EquipmentDropDown SET Quantity='" + newqty + "' where   EquipmentList = '" + e["MaterialName"] + "'", util.cs);
 
                 }
             }
