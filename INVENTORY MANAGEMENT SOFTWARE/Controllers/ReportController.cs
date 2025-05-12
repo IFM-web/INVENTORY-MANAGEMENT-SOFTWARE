@@ -47,5 +47,16 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             
             }
 
+        public IActionResult ApproveMaterialReport() {
+            return View(); 
+        }
+
+
+        public JsonResult GetApproveMaterialReport(string fromdate, string todate)
+        {
+            var ds = util.Fill(@$"exec Usp_ApprovedReport @fromdate='{fromdate}',@todate='{todate}'", util.cs);
+            return Json(JsonConvert.SerializeObject(ds.Tables[0]));
+
+        }
     }
 }

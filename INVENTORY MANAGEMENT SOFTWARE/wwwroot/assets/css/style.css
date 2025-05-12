@@ -28965,9 +28965,10 @@ select.form-control {
   text-align: center;
 }
 .navbar .navbar-brand-wrapper .brand-logo-mini img {
-  width: calc(70px - 30px);
+  width: calc(200px - 30px);
   max-width: 100%;
   margin: auto;
+  display:none;
 }
 .navbar .navbar-brand-wrapper .navbar-toggler {
   border: 0;
@@ -30089,8 +30090,8 @@ select.form-control {
   background-color: white;
 }
 .navbar .navbar-brand-wrapper .navbar-brand img {
-    max-width: 91px;
-    height: 25px;
+    max-width: 160px;
+    height: 50px;
     margin: auto;
     vertical-align: middle;
 }

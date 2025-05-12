@@ -83,6 +83,7 @@ function save() {
         data: {
             Id: $("#Hid_Id").val(),
             UserId: $("#UserId").val().trim(),
+            role: $("#role").val().trim(),
             UserName: $("#UserName").val().trim(),
             Password: $("#Password").val().trim(),
 
@@ -135,6 +136,7 @@ function Delete(Id) {
                     confirmButtonText: "OK"
                 }).then((result) => {
                     if (data[0].status === 'Success' && result.isConfirmed) {
+                        $("#UserId").prop("disabled", false);
                         window.location.reload();
                     }
                 });
@@ -162,11 +164,14 @@ function Edit(row) {
     var UserId = $row.find(".UserId").text();
     var UserName = $row.find(".UserName").text();
     var Password = $row.find(".Password").text();
+    var role = $row.find(".Role").text();
 
     $("#btnsave").text('Update');
 
     $("#Hid_Id").val(Id);
     $("#UserId").val(UserId);
+    $("#role").val(role);
+    $("#UserId").prop("disabled",true);
     $("#UserName").val(UserName);
     $("#Password").val(Password);
     Show()

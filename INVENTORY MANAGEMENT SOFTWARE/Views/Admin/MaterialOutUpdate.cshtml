@@ -84,10 +84,38 @@
                                 }
                             </select>
                         </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label>From Date </label>
+                        <input type="date" onchange="getUpdatedetails()" id="fromdate" style="
+    height: 30px;
+    padding: 10px;
+" class="form-control" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label>To Date</label>
+                        <input type="date" onchange="getUpdatedetails()" id="Todate" style="
+    height: 30px;
+    padding: 10px;
+" class="form-control" />
+                        </div>
 
 
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>District Name</label>
+                            <select onchange="getUpdatedetaildistict()" class="form-control" id="District">
+
+                            <option value="All">All</option>
+                          
+                        </select>
                     </div>
+                </div>
 
+           
 
                     <div class="table-container">
 
@@ -98,7 +126,6 @@
                         <button class="btn btn-primary mt-2" onclick="Update()">Update</button>
                     </div>
 
-                </div>
 
 
 
@@ -132,6 +159,7 @@
         }
 
     $("#Material").select2();
+        $("#District").select2();
 
 
 

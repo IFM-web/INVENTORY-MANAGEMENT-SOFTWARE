@@ -1,4 +1,5 @@
 ﻿using INVENTORY_MANAGEMENT_SOFTWARE;
+using INVENTORY_MANAGEMENT_SOFTWARE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -16,12 +17,10 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
 
        Utility util = new Utility();
         ClsUtility utility = new ClsUtility();
-        public IActionResult Login()
-        {
+     
 
 
-            return View();
-        }
+        
         public IActionResult QuantityMaster()
         {
             ViewBag.Equipmentlist = util.PopulateDropDown("SELECT DISTINCT  EquipmentList, EquipmentList FROM EquipmentDropDown", util.cs, "");
@@ -245,10 +244,19 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         }
         [HttpPost]
 
-        public ActionResult getOutUpdatedetails(string Material)
+        public ActionResult Binddistricttoother(string  Material, string fromdate,string Todate)
+        {
+
+            string sqlquery = "exec Usp_DDL 'Binddistricttoother', @id ='" + Material + "', @id2 ='" + fromdate + "', @id3 ='" + Todate + "'";
+            var ds = util.Fill(sqlquery, util.cs);
+                var data = JsonConvert.SerializeObject(ds.Tables[0]);
+                return Json(data);
+        }
+        [HttpPost]
+        public ActionResult getOutUpdatedetails(string Material, string fromdate, string Todate,string District)
         {
             
-                string sqlquery = "exec Usp_DDL 'GetoutMaterialDetails', @id ='" + Material + "'";
+                string sqlquery = "exec Usp_DDL 'GetoutMaterialDetails', @id ='" + Material + "',@id2 ='" + fromdate + "', @id3 ='" + Todate + "',@id4='"+District+"'";
                 var ds = util.Fill(sqlquery, util.cs);
                 var data = JsonConvert.SerializeObject(ds.Tables[0]);
                 return Json(data);
@@ -299,7 +307,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             string msg = "";
             foreach (var e in Arr)
             {
-                msg = util.ExecQuery($@"update MaterialOut set QtyTransfer='{e["Qty"]}' where Materialout_ID= '{e["matrialitemid"]}' ", util.cs);
+                msg = util.ExecQuery($@"update MaterialOut set QtyTransfer='{e["Qty"]}',Date='{e["date"]}' where Materialout_ID= '{e["matrialitemid"]}' ", util.cs);
 
                 if (msg == "Successfull")
                 {

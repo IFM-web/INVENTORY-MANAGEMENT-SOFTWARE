@@ -96,9 +96,9 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveUser(string Id, string UserId,string UserName,string Password)
+        public JsonResult SaveUser(string Id, string UserId,string UserName,string Password,string role)
         {
-            var ds = util.Fill(@$"exec Usp_UserMaster 'Insert',@id='{Id}',@UserId='{UserId}',@UserName='{UserName}',@Password='{Password}' ", util.cs);
+            var ds = util.Fill(@$"exec Usp_UserMaster 'Insert',@UserId='{UserId}',@UserName='{UserName}',@Password='{Password}',@role='{role}' ", util.cs);
 
             return Json(JsonConvert.SerializeObject(ds.Tables[0]));
 
@@ -106,7 +106,7 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
         [HttpPost]
         public JsonResult DeleteUser(string Id)
         {
-            var ds = util.Fill(@$"exec Usp_UserMaster 'Delete',@id='{Id}' ", util.cs);
+            var ds = util.Fill(@$"exec Usp_UserMaster 'Delete',@UserId='{Id}' ", util.cs);
 
             return Json(JsonConvert.SerializeObject(ds.Tables[0]));
 

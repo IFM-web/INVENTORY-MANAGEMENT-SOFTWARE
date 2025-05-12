@@ -268,7 +268,9 @@
             color: white;
             font-size: 10px;
         }
-
+        .navbar-brand img{
+            width:200px !important;
+        }
         .status-info {
             /* display: flex; */
             gap: 6px;
@@ -301,17 +303,17 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row nav-one">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-between" style="height: 64px !important">
-                @*  <div class="bar">
-                   <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
-                        <img src="~/img/Menus.png">
-                    </button>
-                <a class="navbar-brand brand-logo" href="index.html">
-                        <img src="~/img/Logo.png" alt="logo" />
+                 <div class="bar">
+                 @*   <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                        <img src="~/Menus.png">
+                    </button> *@
+                <a class="navbar-brand brand-logo" href="#">
+                        <img width="150px" src="~/Picture2.png" alt="logo" />
                     </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                        <img src="~/img/Logo.png" alt="logo" />
+                    <a class="navbar-brand brand-logo-mini" href="#">
+                        <img width="150px" src="~/Picture2.png" alt="logo" />
                     </a>
-                    </div> *@
+                    </div> 
                 <div>
                 </div>
 
@@ -449,6 +451,7 @@
 
                                 <li class="nav-item"><a class="nav-link" href="~/home/dashboard">Available Stock</a></li>
                                 <li class="nav-item"><a class="nav-link" href="~/Report/OutReport">Material Out Report</a></li>
+                                <li class="nav-item"><a class="nav-link" href="~/Report/ApproveMaterialReport">Approved Material Report</a></li>
                                
                             </ul>
                         </div>

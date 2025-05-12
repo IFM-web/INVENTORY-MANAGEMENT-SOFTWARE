@@ -28,25 +28,42 @@ namespace INVENTORY_MANAGEMENT_SOFTWARE.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(Admin_User obj)
+        public IActionResult Login(Admin_User loginModel)
         {
-
-            if (obj.uname == "Admin" && obj.pwd == "Admin")
+            if (ModelState.IsValid)
             {
-               
-                //HttpContext.Session.SetString("Username", obj.uname);
-                return RedirectToAction("MaterialIn", "Admin");
+
+
+                //  string cnpwd = EncryptionHelper.Encrypt(loginModel.password);
+                var ds = util.Fill("exec LoginValidate @username='" + loginModel.uname.ToLower() + "',@password='" + loginModel.pwd + "' ", util.cs);
+
+                //  var userid = ds.Tables[0].Rows[0][0];
+                string errmsg = ds.Tables[0].Rows[0][1].ToString();
+                if (errmsg != "Incorrect Password")
+                {
+                    if (errmsg != "Invalid Username")
+                    {
+                        HttpContext.Session.SetString("UserId", ds.Tables[0].Rows[0]["UserId"].ToString());
+
+                        HttpContext.Session.SetString("UserName", ds.Tables[0].Rows[0]["UserName"].ToString());
+                        return RedirectToAction("MaterialIn", "Admin");
+                    }
+                    else
+                        ViewBag.msg = errmsg;
+
+                }
+                else if (errmsg == "Incorrect Password")
+                {
+                    ViewBag.msg = errmsg;
+                }
+
+
+
             }
 
-            else
-            {
-                ViewBag.message = "UserName Or Password Invailed";
-            }
-
-
-
-            return View();
+            return View(loginModel);
         }
+
         public IActionResult Logout()
         {
             //HttpContext.Session.Clear();
